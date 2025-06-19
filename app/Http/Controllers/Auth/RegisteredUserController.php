@@ -31,12 +31,14 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'username' => ['required', 'string', 'min:4', 'max:16', 'alpha_num', 'unique:users'], // penulisan 'unique:users' merupakan cara lain / alternnatif menuliskan 'unique':.Unique::class. hanya beda target saja kalo ini menyebutkan nama tabel users nya kalo User::class itu model nya
+            'email' => ['required', 'string', 'lowercase', 'email:dns', 'max:255', 'unique:'.User::class], // 'email:dns' agar email tidak bisa asal minimal ada .com, .net, .id dan lain-lain. tidak bisa misalkan 'zaki@qwe.asw' setidaknya harus zaki@qwe.com/.net/.ac.id
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
