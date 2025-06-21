@@ -89,17 +89,35 @@ class PostDashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        //
+        return view('dashboard.edit', ['post'=> $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        // Validasi
+        $request->validate(
+            [
+            'title' => 'required|min:4|max:255|unique:posts, title' . $post->id, // untuk mengatasi / mengabaikan unique data agar tidak error ketika data lain diubah tapi data unique itu tetap sama / tidak berubah / meng-ignore kan, maka gunakan cara penulisan seperti ini (unique:posts dipindahkan ke akhir) lalu tambahkan field input yang mana dan diconcat / digabungkan dengan id
+            'category_id' => 'required',
+            'body' => 'required',
+        ]);
+
+        // Update Post
+        $post->update([
+            'title' => $request->title,
+            'author_id' => Auth::user()->id,
+            'category_id' => $request->category_id,
+            'slug' => Str::slug($request->title),
+            'body' => $request->body,
+        ]);
+
+        // Redirect
+        return redirect('/dashboard')->with(['success'=> 'Data post berhasil diperbarui!']);
     }
 
     /**
