@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "flowbite/src/themes/default";
 
 @plugin '@tailwindcss/forms';
@@ -23,9 +23,32 @@
     --color-primary-800: #1e40af;
     --color-primary-900: #1e3a8a;
 
-    --font-sans: 'Inter', InterVariable, 'Instrument Sans', Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-body: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-mono: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace';
+    --font-sans: "Inter", InterVariable, "Instrument Sans", Figtree,
+        ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-body: "Inter", "ui-sans-serif", "system-ui", "-apple-system",
+        "system-ui", "Segoe UI", "Roboto", "Helvetica Neue", "Arial",
+        "Noto Sans", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas",
+        "Liberation Mono", "Courier New", "monospace";
+
+    /* custom animation for flash message */
+    --animate-slideupMsg: slideupMsg 0.5s ease-out;
+
+    @keyframes slideupMsg {
+        0% {
+            top: -5rem;
+            opacity: 0%;
+          }
+          60% {
+          opacity: 10%;
+        }
+        100% {
+            top: 0.75rem;
+            opacity: 100%;
+        }
+    }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -39,11 +62,11 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
 }

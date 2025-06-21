@@ -19,6 +19,11 @@ class CategorySeeder extends Seeder
             'color' => 'bg-red-100',
         ]);
         Category::create([
+            'name' => 'UI UX',
+            'slug' => 'ui-ux',
+            'color' => 'bg-yellow-100',
+        ]);
+        Category::create([
             'name' => 'Web Programming',
             'slug' => 'web-programming',
             'color' => 'bg-green-100',

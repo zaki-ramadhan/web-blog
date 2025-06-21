@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PostDashboardController extends Controller
 {
@@ -17,7 +18,7 @@ class PostDashboardController extends Controller
         $posts = Post::latest()->where('author_id', Auth::user()->id); // Auth::user() untuk mendapatkan user yang sedang login dan mengembalikan dalam bentuk objek, maka tentukan apa yang akan diambil? ambil id nya saja, nanti akan ada pengecekan author_id = id user yg login
 
         // pencarian post berdasarkan judul
-        if(request('keyword')) {
+        if (request('keyword')) {
             $posts->where('title', 'like', '%' . request('keyword') . '%');
         }
         return view('dashboard.index', ['posts' => $posts->paginate(5)->withQueryString()]); // gunakan 'withQueryString' agar tetap membawa query dan tidak mereset url / pagination
@@ -36,16 +37,45 @@ class PostDashboardController extends Controller
      */
     public function store(Request $request)
     {
+        
+
+        // ? validate begini messagenya menggunakan bawaan laravel
+        // $request->validate([
+        //     'title' => 'required|unique:posts|min:4|max:255', // unique mengacu pada tabel posts
+        //     'category_id' => 'required',
+        //     'body' => 'required',
+        // ]);
+        
+        // kalo mau buat messagenya custom menggunakan class 'Validator::make'
+        Validator::make($request->all(), [
+            'title' => 'required|unique:posts|min:4|max:255', // unique mengacu pada tabel posts
+            'category_id' => 'required',
+            'body' => 'required',
+        ], [
+            // isi pesan error custom
+            'title.required' => 'Field :attribute harus diisi',
+            'category_id.required' => 'Pilih salah satu :attribute',
+            'body.required' => 'Field :attribute harus diisi',
+        ],[
+            // atribut name di custom untuk ditampilkan di error message lebih enak
+            'title' => 'judul',
+            'category_id' => 'kategori',
+            'body' => 'pesan'
+        ])->validate();
+
+        // ! Pesan error message juga bisa diubah ke bahasa indonesia dengan menggunakan perintah artisan lang:publish, dan melakukan perubahan isi pesannya disana
+        // ! Pesan error message juga bisa diubah ke bahasa indonesia dengan menggunakan perintah artisan lang:publish, dan melakukan perubahan isi pesannya disana
+        // ! Pesan error message juga bisa diubah ke bahasa indonesia dengan menggunakan perintah artisan lang:publish, dan melakukan perubahan isi pesannya disana
 
         Post::create([
             'title' => $request->title,
             'author_id' => Auth::user()->id,
-            'category_id'=> $request->category_id,
-            'slug'=> Str::slug($request->title), // menggunakan helper slug untuk dibuatkan otomatis berdasarkan title
-            'body'=> $request->body,
+            'category_id' => $request->category_id,
+            'slug' => Str::slug($request->title), // menggunakan helper slug untuk dibuatkan otomatis berdasarkan title
+            'body' => $request->body,
         ]);
 
-        return redirect('/dashboard');
+        return redirect('/dashboard')->with(['success' => 'Data baru berhasil ditambahkan!']); // sekalian membawa pesan / flash message, pesan sementara di session
     }
 
     /**
