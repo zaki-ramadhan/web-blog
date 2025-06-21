@@ -11,15 +11,12 @@ use Illuminate\Database\Eloquent\Builder;
 class Post extends Model
 {
 
-    use HasFactory; //agar bisa menjalankan factory
-
-    // agar data bisa diisi melalui 'tinker'. maka perlu menuliskan kolom apa saja yang boleh diisi atau jangan diisi
-    protected $fillable = ['title', 'slug', 'author', 'body']; // ini bisa diisi dengan nama kolom yang BOLEH diisi (kalo kosong artinya semua kolom boleh diisi)
+    use HasFactory;
+    // protected $fillable = ['title', 'slug', 'author', 'body'];
+    protected $guarded = ['id']; // selain kolom id, bisa diisi
 
     // ! untuk mengguankan eager loading, cukup di model saja, maka di route tidak perlu menuliskan lagi
     protected $with = ['author', 'category']; // gunakan keyword 'with' untuk eager loading relasi yang ada di model ini
-
-    // protected $guarded = ['id']; // ini bisa diisi dengan nama kolom yang TIDAK BOLEH  diisi (kalo kosong artinya semua kolom ga boleh diisi)
 
     public function author()
     {

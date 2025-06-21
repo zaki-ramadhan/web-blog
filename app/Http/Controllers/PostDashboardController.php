@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class PostDashboardController extends Controller
         if(request('keyword')) {
             $posts->where('title', 'like', '%' . request('keyword') . '%');
         }
-        return view('dashboard', ['posts' => $posts->paginate(5)->withQueryString()]); // gunakan 'withQueryString' agar tetap membawa query dan tidak mereset url / pagination
+        return view('dashboard.index', ['posts' => $posts->paginate(5)->withQueryString()]); // gunakan 'withQueryString' agar tetap membawa query dan tidak mereset url / pagination
     }
 
     /**
@@ -27,7 +28,7 @@ class PostDashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.create');
     }
 
     /**
@@ -35,15 +36,24 @@ class PostDashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        Post::create([
+            'title' => $request->title,
+            'author_id' => Auth::user()->id,
+            'category_id'=> $request->category_id,
+            'slug'=> Str::slug($request->title), // menggunakan helper slug untuk dibuatkan otomatis berdasarkan title
+            'body'=> $request->body,
+        ]);
+
+        return redirect('/dashboard');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        //
+        return view('dashboard.show', ['post' => $post]);
     }
 
     /**
