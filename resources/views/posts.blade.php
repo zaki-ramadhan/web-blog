@@ -26,7 +26,7 @@
                 </div>
                 <input type="search" id="default-search"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:outline-1 focus:outline-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search post title..." name="search" autocomplete="off" />
+                    placeholder="Search post title..." name="search" autocomplete="off"/>
                 <button type="submit"
                     class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div>
@@ -34,12 +34,12 @@
 
         {{ $posts->links() }}
 
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-6">
+        <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-3 mt-6">
 
             {{-- gunakan 'forelse' agar bisa memberi kondisi jika tidak ada data yang dikembalikan --}}
             @forelse ($posts as $post)
                 <article
-                    class="p-6 bg-white rounded-xl border border-gray-200 shadow-lg shadow-gray-200 dark:bg-gray-800 dark:border-gray-700 flex flex-col">
+                    class="p-6 pb-4.5 bg-white rounded-xl border border-gray-200 shadow-lg shadow-gray-200/70 dark:bg-gray-800 dark:border-gray-700 flex flex-col">
                     <div class="text-xs flex justify-between items-center mb-3 text-gray-500">
                         <a href="/posts?category={{ $post->category->slug }}">
                             <span
@@ -56,12 +56,12 @@
                     </p>
                     <div class="flex justify-between items-center">
                         <a href="/posts?author={{ $post->author->username }}">
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
                                 <img class="w-7 h-7 rounded-full object-cover"
                                     src="{{ $post->author->avatar ? asset('storage/' . $post->author->avatar) : asset('../img/default-avatar.jpeg') }}"
                                     alt="{{ $post->author->name }}" />
                                 <span
-                                    class="font-medium text-xs hover:underline hover:underline-offset-2 dark:text-white line-clamp-1">
+                                    class="font-medium pr-5 text-xs hover:underline hover:underline-offset-2 dark:text-white line-clamp-1">
                                     {{ $post->author->name }}
                                 </span>
                             </div>
