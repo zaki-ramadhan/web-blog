@@ -57,17 +57,17 @@
                     <div class="flex justify-between items-center">
                         <a href="/posts?author={{ $post->author->username }}">
                             <div class="flex items-center space-x-4">
-                                <img class="w-7 h-7 rounded-full"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
+                                <img class="w-7 h-7 rounded-full object-cover"
+                                    src="{{ $post->author->avatar ? asset('storage/' . $post->author->avatar) : asset('../img/default-avatar.jpeg') }}"
                                     alt="{{ $post->author->name }}" />
                                 <span
-                                    class="font-medium text-xs hover:underline hover:underline-offset-2 dark:text-white">
+                                    class="font-medium text-xs hover:underline hover:underline-offset-2 dark:text-white line-clamp-1">
                                     {{ $post->author->name }}
                                 </span>
                             </div>
                         </a>
                         <a href="/posts/{{ $post->slug }}"
-                            class="text-xs inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
+                            class="text-xs text-nowrap inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
                             Read more
                             <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">

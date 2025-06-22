@@ -10,7 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', function () {
-    $posts = Post::latest()->filter(request(['search', 'category', 'author']))->paginate(5)->withQueryString(); // 'withQueryString' agar query nya ikut kebawa, ga cuman 'posts?page=1', tapi jadi 'post?category={category}&page=1'. begitupun juga dengan author
+    $posts = Post::latest()->filter(request(['search', 'category', 'author']))->paginate(10)->withQueryString(); // 'withQueryString' agar query nya ikut kebawa, ga cuman 'posts?page=1', tapi jadi 'post?category={category}&page=1'. begitupun juga dengan author
     return view('posts', ['title' => 'Blog', 'posts' => $posts]);
 });
 

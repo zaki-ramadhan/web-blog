@@ -126,6 +126,6 @@ class PostDashboardController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect('/dashboard')->with(['success' => 'Data berhasil dihapus!']);
+        return redirect('/dashboard')->with(['success' => 'Data post berhasil dihapus!']);
     }
 }

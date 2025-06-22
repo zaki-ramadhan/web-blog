@@ -15,8 +15,8 @@
             <header class="my-4 lg:mb-6 not-format">
                 <address class="flex items-center mb-6 not-italic">
                     <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                        <img class="mr-5 w-18 h-18 rounded-full"
-                            src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                        <img class="mr-5 w-18 h-18 rounded-full object-cover"
+                            src="{{ $post->author->avatar ? asset('storage/' . $post->author->avatar) : asset('../img/default-avatar.jpeg') }}"
                             alt="{{ $post->author->name }}">
                         <div>
                             <a href="/posts?author={{ $post->author->username }}" rel="author"
