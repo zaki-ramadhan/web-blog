@@ -34,7 +34,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
             // tambahkan validasi untuk avatar
-            'avatar'=> 'image|file|max:1024', // maksimal 1MB
+            // 'avatar'=> 'image|file|max:1024', // maksimal 1MB
         ];
     }
 }

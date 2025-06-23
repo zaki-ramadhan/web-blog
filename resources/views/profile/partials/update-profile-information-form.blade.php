@@ -1,3 +1,10 @@
+{{-- style css --}}
+{{-- cdn filepond css --}}
+@push('style')
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet" />
+@endpush
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -88,19 +95,60 @@
     </form>
 </section>
 
-{{-- untuk preview avatar ketika blm submit --}}
-<script>
-    const input = document.getElementById('avatar');
-    const previewPhoto = () => {
-        const file = input.files;
-        if (file) {
-            const fileReader = new FileReader();
-            const preview = document.getElementById('avatar-preview');
-            fileReader.onload = function(event) {
-                preview.setAttribute('src', event.target.result);
+@push('script')
+    <script>
+        //untuk preview avatar ketika blm submit
+        const input = document.getElementById('avatar');
+        const previewPhoto = () => {
+            const file = input.files;
+            if (file) {
+                const fileReader = new FileReader();
+                const preview = document.getElementById('avatar-preview');
+                fileReader.onload = function(event) {
+                    preview.setAttribute('src', event.target.result);
+                }
+                fileReader.readAsDataURL(file[0]);
             }
-            fileReader.readAsDataURL(file[0]);
         }
-    }
-    input.addEventListener("change", previewPhoto);
-</script>
+        input.addEventListener("change", previewPhoto);
+    </script>
+
+    // filepond js
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+
+    <script>
+        // Register filebond plugins
+        // Register the preview img plugin
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        // Register the type validation
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        // Register the size validation
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        // Register the image transform
+        FilePond.registerPlugin(FilePondPluginImageTransform);
+        // Register the image resizer
+        FilePond.registerPlugin(FilePondPluginImageResize);
+
+
+        const inputElement = document.querySelector('#avatar');
+        const pond = FilePond.create(inputElement, {
+            acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+            maxFileSize: '5MB',
+            imageResizeTargetWidth: '600',
+            imageResizeMode: 'contain',
+            imageResizeUpscale: false,
+            server: {
+                headers: {
+                    // perlu membawa token agar bisa bekerja
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                url: '/upload'
+            }
+        });
+    </script>
+@endpush

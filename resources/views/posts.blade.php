@@ -49,10 +49,10 @@
                         </a>
                         <span>{{ $post->created_at->diffForHumans() }}</span>
                     </div>
-                    <h2 class="mb-2 text-2xl line-clamp-3 font-bold tracking-tight text-gray-900 dark:text-white"><a
-                            href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h2>
+                    <h2 class="mb-2 text-2xl line-clamp-3 font-bold tracking-tight text-gray-900 dark:text-white">
+                        <a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h2>
                     <p class="mb-5 font-light text-gray-500 dark:text-gray-400 grow">
-                        {{ Str::limit($post->body, 100, '...') }}
+                        {{ Str::limit($post->body, 110, '...') }}
                     </p>
                     <div class="flex justify-between items-center">
                         <a href="/posts?author={{ $post->author->username }}">

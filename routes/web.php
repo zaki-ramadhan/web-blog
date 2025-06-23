@@ -10,7 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/posts', function () {
-    $posts = Post::latest()->filter(request(['search', 'category', 'author']))->paginate(10)->withQueryString(); // 'withQueryString' agar query nya ikut kebawa, ga cuman 'posts?page=1', tapi jadi 'post?category={category}&page=1'. begitupun juga dengan author
+    $posts = Post::latest()->filter(request(['search', 'category', 'author']))->paginate(9)->withQueryString(); // 'withQueryString' agar query nya ikut kebawa, ga cuman 'posts?page=1', tapi jadi 'post?category={category}&page=1'. begitupun juga dengan author
     return view('posts', ['title' => 'Blog', 'posts' => $posts]);
 });
 
@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard', [PostDashboardController::class, 'store']);
     Route::get('/dashboard/create', [PostDashboardController::class, 'create']);
     Route::delete('/dashboard/{post:slug}', [PostDashboardController::class, 'destroy']);
-    Route::get('/dashboard/{post:slug}/edit', [PostDashboardController::class,'edit']);
+    Route::get('/dashboard/{post:slug}/edit', [PostDashboardController::class, 'edit']);
     Route::patch('/dashboard/{post:slug}', [PostDashboardController::class, 'update']);
     Route::get('/dashboard/{post:slug}', [PostDashboardController::class, 'show']);
 });
@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/upload', [ProfileController::class, 'upload']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

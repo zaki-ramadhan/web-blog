@@ -114,7 +114,7 @@
                             src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('../img/default-avatar.jpeg') }}"
                             alt="{{ Auth::user()->name }}">
                     </div>
-                    <div class="ml-3 text-sm">
+                    <div class="ml-4 text-sm">
                         <div class="text-white font-medium mt-1">{{ Auth::user()->name }}</div>
                         <div class="text-gray-400">{{ Auth::user()->email }}</div>
                     </div>
