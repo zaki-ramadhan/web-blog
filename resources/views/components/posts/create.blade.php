@@ -1,3 +1,7 @@
+@push('style')
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+@endpush
+
 <div class="relative p-4 bg-white rounded-lg border dark:bg-gray-800 sm:p-5">
     <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add Product</h3>
@@ -25,7 +29,7 @@
     @endif --}}
 
     <!-- Modal body -->
-    <form action="/dashboard" method="POST">
+    <form action="/dashboard" method="POST" id="post-form">
         @csrf
         <div class="mb-4">
             <div>
@@ -57,9 +61,12 @@
         </div>
         <div class="sm:col-span-2 mb-4">
             <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
-            <textarea name="body" id="body" rows="4"
+            <textarea name="body" id="body" rows="4" hidden
                 class="@error('body') bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 @enderror block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Write post body here">{{ old('body') }}</textarea>
+
+            <div id="editor">
+            </div>
 
             @error('body')
                 <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
@@ -83,3 +90,30 @@
         </div>
     </form>
 </div>
+
+@push('script')
+    <!-- Include the Quill library -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Write post body here'
+        });
+
+        const postForm = document.querySelector('#post-form');
+        const postBody = document.querySelector('#body');
+        const quillEditor = document.querySelector('#editor');
+
+        postForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // ambil value dari quilleditor dan masukkan value nya ke post body
+            const content = quillEditor.children[0].innerHTML;
+            postBody.value = content;
+
+            this.submit();
+        })
+    </script>
+@endpush

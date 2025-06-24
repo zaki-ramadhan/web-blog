@@ -49,11 +49,14 @@
                         </a>
                         <span>{{ $post->created_at->diffForHumans() }}</span>
                     </div>
-                    <h2 class="mb-2 text-2xl line-clamp-3 font-bold tracking-tight text-gray-900 dark:text-white">
-                        <a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h2>
-                    <p class="mb-5 font-light text-gray-500 dark:text-gray-400 grow">
-                        {{ Str::limit($post->body, 110, '...') }}
-                    </p>
+                    <h2 class="mb-2 text-2xl line-clamp-2 font-bold tracking-tight text-gray-900 dark:text-white">
+                        <a href="/posts/{{ $post->slug }}">{{ $post->title }}</a>
+                    </h2>
+                    <div class="mb-5 leading-6 text-sm font-light text-gray-500 line-clamp-3 dark:text-gray-400 grow">
+                        {!! $post->body !!}
+                    </div>
+
+                    {{-- footer article --}}
                     <div class="flex justify-between items-center">
                         <a href="/posts?author={{ $post->author->username }}">
                             <div class="flex items-center space-x-3">
@@ -61,7 +64,7 @@
                                     src="{{ $post->author->avatar ? asset('storage/' . $post->author->avatar) : asset('../img/default-avatar.jpeg') }}"
                                     alt="{{ $post->author->name }}" />
                                 <span
-                                    class="font-medium pr-5 text-xs hover:underline hover:underline-offset-2 dark:text-white line-clamp-1">
+                                    class="font-medium pr-7 text-xs hover:underline hover:underline-offset-2 dark:text-white line-clamp-1">
                                     {{ $post->author->name }}
                                 </span>
                             </div>

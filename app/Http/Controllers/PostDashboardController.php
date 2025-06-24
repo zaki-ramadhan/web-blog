@@ -50,17 +50,20 @@ class PostDashboardController extends Controller
         Validator::make($request->all(), [
             'title' => 'required|unique:posts|min:4|max:255', // unique mengacu pada tabel posts
             'category_id' => 'required',
-            'body' => 'required',
+            'body' => 'required|min:20',
         ], [
             // isi pesan error custom
-            'title.required' => 'Field :attribute harus diisi',
+            'title.required' => ':attribute harus diisi',
+            'title.min' => ':attribute harus berisi :min karakter atau lebih',
+            'title.max' => ':attribute tidak boleh lebih dari :max karakter',
             'category_id.required' => 'Pilih salah satu :attribute',
-            'body.required' => 'Field :attribute harus diisi',
+            'body.required' => ':attribute harus diisi',
+            'body.min' => ':attribute harus berisi :min karakter atau lebih',
         ],[
             // atribut name di custom untuk ditampilkan di error message lebih enak
-            'title' => 'judul',
+            'title' => 'Judul',
             'category_id' => 'kategori',
-            'body' => 'pesan'
+            'body' => 'Pesan'
         ])->validate();
 
         // ! Pesan error message juga bisa diubah ke bahasa indonesia dengan menggunakan perintah artisan lang:publish, dan melakukan perubahan isi pesannya disana

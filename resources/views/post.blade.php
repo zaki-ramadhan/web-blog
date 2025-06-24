@@ -22,7 +22,7 @@
                                     alt="{{ $post->author->name }}">
                             <div>
                                 <a href="/posts?author={{ $post->author->username }}" rel="author"
-                                    class="text-xl font-bold text-gray-900 dark:text-white">{{ $post->author->name }}</a>
+                                    class="text-base font-semibold text-gray-800 dark:text-white">{{ $post->author->name }}</a>
                                 <a href="/posts?category={{ $post->category->slug }}" class="block my-1.5">
                                     <span
                                         class="{{ $post->category->color }} text-xs text-gray-700  font-medium inline-flex items-center px-2.5 py-1 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -38,7 +38,7 @@
                         class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
                         {{ $post->title }}</h1>
                 </header>
-                <p class=" text-gray-400 leading-7 text-justify">{{ $post->body }}</p>
+                <div class="-mt-2 text-gray-400 text-lg leading-7 indent-12 font-light text-justify">{!! $post->body !!}</div>
             </article>
         </div>
     </main>
