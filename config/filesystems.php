@@ -51,7 +51,7 @@ return [
         // tambahkan ini untuk upload file di storage server
         'upload_disk' => [
             'driver' => 'local',
-            'root' => base_path('../public_hmtl/storage'),
+            'root' => base_path('../public_html/storage'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
