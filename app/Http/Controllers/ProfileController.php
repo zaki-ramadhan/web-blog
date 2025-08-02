@@ -51,14 +51,14 @@ class ProfileController extends Controller
         if ($request->avatar) {
             if (!empty($request->user()->avatar)) {
                 // hapus avatar lama jika si user sudah ada avatar lama sebelumnya dan akan diganti dengan avatar baru
-                Storage::disk('public')->delete($request->user()->avatar);
+                Storage::disk(config('filesystems.default_public_disk'))->delete($request->user()->avatar);
             }
 
             // gunakan helper 'Str::after' mengambil nama file saja dari nama path+file (misalkan img/temp_avatars/ashcbhajcbhjac.png maka yang akan diambil nama file nya saja : ashcbhajcbhjac.png)
             $newFileName = Str::after($request->avatar, 'img/temp_avatars/');
 
             // memindahkan file dari folder 'img/temp_avatars' ke 'img/avatars'
-            Storage::disk('public')->move($request->avatar, 'img/avatars/' . $newFileName);
+            Storage::disk(config('filesystems.default_public_disk'))->move($request->avatar, 'img/avatars/' . $newFileName);
 
             // divalidasi datanya agar bisa dikirim ke database (path avatarnya)
             $validated['avatar'] = 'img/avatars/' . $newFileName;
@@ -74,7 +74,7 @@ class ProfileController extends Controller
     public function upload(Request $request)
     {
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('img/temp_avatars', 'public');
+            $path = $request->file('avatar')->store('img/temp_avatars', config('filesystems.default_public_disk'));
         }
 
         return $path;
